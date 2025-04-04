@@ -8,4 +8,11 @@ wss.on("connection", (ws) => {
     console.log("received: %s", message);
     ws.send("Hello World!");
   });
+  ws.on("error", (error) => {
+    console.log("error: ", error);
+  });
+  ws.on("close", (code, reason) => {
+    console.log("close: ", code, reason);
+  });
+  
 });
