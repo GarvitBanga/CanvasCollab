@@ -34,7 +34,6 @@ function checkUser(token:string):string| null {
 
 wss.on("connection", (ws,request) => {
 
-  console.log("connected");
   const url=request.url;
   if(!url){
       ws.send("Invalid request");

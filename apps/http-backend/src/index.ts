@@ -109,7 +109,7 @@ app.get("/chat/:roomId",async (req,res)=>{
             take:50
 
         })
-        res.json(chats);
+        res.json({chats});
     }
     catch(e){
         res.status(403).json({message:"Room does not exist"});
@@ -118,6 +118,23 @@ app.get("/chat/:roomId",async (req,res)=>{
 
 
 
+});
+
+app.get("/room/:slug",async (req,res)=>{
+    const slug= req.params.slug;
+
+    try{
+        const room=await prismaClient.room.findFirst({
+            where:{
+                slug:slug
+            }
+        })
+        res.json({room});
+    }
+    catch(e){
+        res.status(403).json({message:"Room does not exist"});
+        return;
+    }
 });
 
 app.listen(3001, () => {
