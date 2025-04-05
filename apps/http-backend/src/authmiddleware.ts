@@ -8,7 +8,7 @@ export function authmiddleware(req:Request,res:Response,next:NextFunction){
         
         if(decoded){
             // @ts-ignore TODO: fix this
-            req.userid=decoded.userid;
+            req.userId=decoded.userId;
             next();
         } 
         else{
