@@ -5,7 +5,7 @@ import { initdraw } from "@/draw";
 import { use, useEffect, useRef, useState } from "react";
 import Canvas from "./Canvas";
 
-export function RoomCanvas({roomId}:{roomId:string}) {
+export function  RoomCanvas({roomId}:{roomId:string}) {
     
     const [socket,setSocket]=useState<WebSocket|null>(null);
 

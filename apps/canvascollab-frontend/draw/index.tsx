@@ -9,10 +9,16 @@ type Shape={
     height:number; 
 }|{
     type:"circle";
-    centerx:number;
-    centery:number;
+    centerX:number;
+    centerY:number;
     radius:number;
-}
+}|{
+    type:"pencil";
+    startX:number;
+    startY:number;
+    endX:number;
+    endY:number; 
+} 
 
 
 export async function initdraw(canvas:HTMLCanvasElement,roomId:string,socket:WebSocket){
@@ -53,14 +59,43 @@ export async function initdraw(canvas:HTMLCanvasElement,roomId:string,socket:Web
                 console.log(e.clientX,e.clientY);
                 const width=e.clientX-startX;
                 const height=e.clientY-startY;
-                const shape:Shape={
-                    type:"rect",
-                    x:startX,
-                    y:startY,
-                    width,
-                    height
-                }
 
+                //@ts-ignore
+                const selectedShape=window.selectedShape;
+                let shape:Shape|null=null;
+                if(selectedShape=="rect"){
+                    shape={
+                        
+                        type:selectedShape,
+                        x:startX,
+                        y:startY,
+                        width,
+                        height
+                    }
+                }
+                else if(selectedShape=="circle"){
+                    const radius=Math.max(width,height)/2;
+                    shape={
+                        
+                        type:selectedShape,
+                        radius:radius,
+                        centerX:startX+radius,
+                        centerY:startY+radius,
+                    }
+                }
+                else if(selectedShape=="pencil"){
+                    shape={
+                        
+                        type:selectedShape,
+                        startX,
+                        startY,
+                        endX:e.clientX,
+                        endY:e.clientY
+                    }
+                }
+                if(!shape){
+                    return;
+                }
                 existingShapes.push(shape);
 
                 socket.send(JSON.stringify({
@@ -77,8 +112,39 @@ export async function initdraw(canvas:HTMLCanvasElement,roomId:string,socket:Web
                     const height=e.clientY-startY;
                     clearCanvas(existingShapes,canvas,ctx);
                     ctx.strokeStyle="white";
-                    ctx.strokeRect(startX,startY,width,height);
-                    console.log(e.clientX,e.clientY);
+
+                    //@ts-ignore
+                    const selectedShape=window.selectedShape;
+                    console.log(selectedShape);
+
+                    if(selectedShape==="rect"){
+                        console.log("drawrect");
+                        ctx.strokeRect(startX,startY,width,height);
+                     }
+                    else if(selectedShape==="circle"){
+                        console.log("drawcircle");
+                        
+                        const radius=Math.max(width,height)/2
+                        const centerX=startX+radius;
+                        const centerY=startY+radius;
+                        ctx.beginPath();
+                        ctx.arc(centerX,centerY,radius,0,Math.PI*2); 
+                        ctx.stroke(); 
+                        ctx.closePath();
+
+                    }
+                    else if(selectedShape=="pencil"){
+
+                    }
+                      
+
+
+
+
+
+
+                    // ctx.strokeRect(startX,startY,width,height);
+                    // console.log(e.clientX,e.clientY);
                 }
             });
 
@@ -97,10 +163,16 @@ function clearCanvas(existingShapes:Shape[],canvas:HTMLCanvasElement,ctx:CanvasR
      ctx.fillStyle="black";
     ctx.fillRect(0,0,canvas.width,canvas.height);
     existingShapes.map(shape=>{
-        if(shape.type=="rect"){
+        if(shape.type==="rect"){
             ctx.strokeStyle="white";
             ctx.strokeRect(shape.x,shape.y,shape.width,shape.height); 
         } 
+        else if(shape.type==="circle"){
+            ctx.beginPath();
+            ctx.arc(shape.centerX,shape.centerY,shape.radius,0,Math.PI*2); 
+            ctx.stroke(); 
+            ctx.closePath();
+        }
     });
 }
 
