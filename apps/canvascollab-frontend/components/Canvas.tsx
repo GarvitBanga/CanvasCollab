@@ -2,23 +2,26 @@ import { initdraw } from "@/draw";
 import { Circle, Pencil, RectangleHorizontalIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { IconButton } from "./IconButton";
+import { Game } from "@/draw/Game";
 
 
-type Shape="rect"|"circle"|"pencil"; 
+export type Tool="rect"|"circle"|"pencil"; 
 export default function Canvas({roomId,socket}:{roomId:string,socket:WebSocket}) {
     const canvasref=useRef<HTMLCanvasElement>(null);
-
-    const [selectedShape,setSelectedShape]=useState<Shape>("circle");
+    const [game,setGame]=useState<Game|null>(null); 
+    const [selectedTool,setSelectedTool]=useState<Tool>("circle");
 
 
 
     useEffect(()=>{
-        // @ts-ignore
-        window.selectedShape=selectedShape;
+        // // @ts-ignore
+        // window.selectedTool=selectedTool;
+
+        game?.setTool(selectedTool); 
 
 
-
-    },[selectedShape]);
+ 
+    },[selectedTool,game]);
 
 
 
@@ -26,8 +29,15 @@ export default function Canvas({roomId,socket}:{roomId:string,socket:WebSocket})
 
         if(canvasref.current){
             const canvas=canvasref.current;
-            initdraw(canvas,roomId,socket);
+            const game=new Game(canvas,roomId,socket); 
+            setGame(game); 
+            // initdraw(canvas,roomId,socket);
+            return ()=>{
+                game.destroy();
+            }
         }
+
+       
 
         
 
@@ -40,15 +50,15 @@ export default function Canvas({roomId,socket}:{roomId:string,socket:WebSocket})
         overflow:"hidden"
     }}>
         <canvas ref={canvasref} width={window.innerWidth} height={window.innerHeight}></canvas>
-        <Topbar selectedShape={selectedShape} setSelectedShape={setSelectedShape} />
+        <Topbar selectedTool={selectedTool} setSelectedTool={setSelectedTool} />
         </div>
 }
-function Topbar({selectedShape,setSelectedShape}:{selectedShape:Shape,setSelectedShape:(x:Shape)=>void}) {
+function Topbar({selectedTool,setSelectedTool}:{selectedTool:Tool,setSelectedTool:(x:Tool)=>void}) {
      return <div style={{position:"fixed",top:10,left:10}}>
                 <div className="flex gap-2">
-                    <IconButton icon={<Pencil/>} onClick={()=>{setSelectedShape("pencil")}} activated={selectedShape=="pencil"}  />
-                    <IconButton icon={<RectangleHorizontalIcon/>} onClick={()=>{setSelectedShape("rect")}} activated={selectedShape=="rect"}  />
-                    <IconButton icon={<Circle />} onClick={()=>{setSelectedShape("circle")}} activated={selectedShape=="circle"}  />
+                    <IconButton icon={<Pencil/>} onClick={()=>{setSelectedTool("pencil")}} activated={selectedTool=="pencil"}  />
+                    <IconButton icon={<RectangleHorizontalIcon/>} onClick={()=>{setSelectedTool("rect")}} activated={selectedTool=="rect"}  />
+                    <IconButton icon={<Circle />} onClick={()=>{setSelectedTool("circle")}} activated={selectedTool=="circle"}  />
                 </div>
             </div>  
 }
