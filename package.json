@@ -1,5 +1,5 @@
 {
-  "name": "CanvasCollab",
+  "name": "canvascollab",
   "private": true,
   "scripts": {
     "build": "turbo run build",
