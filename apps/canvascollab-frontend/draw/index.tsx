@@ -84,14 +84,7 @@ export async function initdraw(canvas:HTMLCanvasElement,roomId:string,socket:Web
                     }
                 }
                 else if(selectedShape=="pencil"){
-                    shape={
-                        
-                        type:selectedShape,
-                        startX,
-                        startY,
-                        endX:e.clientX,
-                        endY:e.clientY
-                    }
+                   
                 }
                 if(!shape){
                     return;
