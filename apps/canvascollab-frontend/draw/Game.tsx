@@ -1,6 +1,6 @@
 
 import { Tool } from "@/components/Canvas";
-import { getExistingShapes } from "./http";
+import { getExistingShapes,clearShapesFromDB } from "./http";
 type Shape={
     type:"rect";
     x:number;
@@ -64,6 +64,10 @@ type Shape={
                 this.existingShapes.push(parsedshape.shape );
                 this.clearCanvas();
             }
+            if (msg.type === "clear") {
+                this.existingShapes = [];
+                this.clearCanvas();
+              }
         }
 
     }
@@ -95,6 +99,20 @@ type Shape={
                 }
             });
     }
+    async clearSharedCanvas() {
+        this.existingShapes = [];
+        this.clearCanvas();
+    
+        await clearShapesFromDB(this.roomId); // Remove from DB
+    
+        this.socket.send(
+          JSON.stringify({
+            type: "clear",
+            message: "",
+            roomId: this.roomId,
+          })
+        );
+      }
 
      mouseDownHandler=(e:MouseEvent)=>{
          this.clicked=true; 

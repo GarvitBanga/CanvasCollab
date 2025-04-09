@@ -13,3 +13,7 @@ export async function getExistingShapes(roomId:string){
 
 
 } 
+export async function clearShapesFromDB(roomId: string) {
+    const response=await axios.delete(`${HTTP_BACKEND_URL}/chat/${roomId}`);
+    console.log("response",response);
+  }

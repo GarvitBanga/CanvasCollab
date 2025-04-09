@@ -121,6 +121,17 @@ app.get("/chat/:roomId",async (req,res)=>{
 
 
 });
+app.delete("/chat/:roomId", async (req, res) => {
+    const roomId=Number(req.params.roomId);
+    try {
+      await prismaClient.chat.deleteMany({ where:{
+        roomId:roomId
+        } });
+      res.status(200).json({ message: "All shapes cleared." });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to clear shapes." });
+    }
+  });
 
 app.get("/room/:slug",async (req,res)=>{
     const slug= req.params.slug;
