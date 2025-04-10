@@ -3,7 +3,7 @@ import axios from "axios";
 
 export async function getExistingShapes(roomId:string){
     const res= await axios.get(`${HTTP_BACKEND_URL}/chat/${roomId}`); 
-    console.log("res.data",res.data);
+    // console.log("res.data",res.data);
     const chats=res.data.chats;
     const shapes=chats.map((x:{message:string})=>{
         const msgdata=JSON.parse(x.message);
@@ -15,5 +15,11 @@ export async function getExistingShapes(roomId:string){
 } 
 export async function clearShapesFromDB(roomId: string) {
     const response=await axios.delete(`${HTTP_BACKEND_URL}/chat/${roomId}`);
-    console.log("response",response);
-  }
+    // console.log("response",response);
+}
+
+export async function deleteLastShapeFromDB(roomId: string) {
+    const response=await axios.put(`${HTTP_BACKEND_URL}/chat/${roomId}`);
+    // console.log("response",response);
+
+}

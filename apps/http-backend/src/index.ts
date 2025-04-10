@@ -131,7 +131,24 @@ app.delete("/chat/:roomId", async (req, res) => {
     } catch (error) {
       res.status(500).json({ error: "Failed to clear shapes." });
     }
-  });
+});
+
+app.put("/chat/:roomId", async (req, res) => {
+    const roomId=Number(req.params.roomId);
+  
+    const last = await prismaClient.chat.findFirst({
+      where: { roomId },
+      orderBy: { id: "desc" },
+    });
+  
+    if (!last) res.status(404).json({error:"No shapes found."});
+    else{
+    //  console.log("last",last);
+    await prismaClient.chat.delete({ where: { id: last.id } });
+    res.status(200).json({ success: true });
+    }
+});
+
 
 app.get("/room/:slug",async (req,res)=>{
     const slug= req.params.slug;
