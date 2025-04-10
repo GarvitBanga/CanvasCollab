@@ -77,8 +77,8 @@ function Topbar({selectedTool,setSelectedTool,onClearCanvas,onUndo}:{selectedToo
                     <IconButton icon={<Pencil/>} onClick={()=>{setSelectedTool("pencil")}} activated={selectedTool=="pencil"}  />
                     <IconButton icon={<RectangleHorizontalIcon/>} onClick={()=>{setSelectedTool("rect")}} activated={selectedTool=="rect"}  />
                     <IconButton icon={<Circle />} onClick={()=>{setSelectedTool("circle")}} activated={selectedTool=="circle"}  />
-                    <IconButton icon={<Undo2 />} onClick={()=>{onUndo()}} activated={false} />
-                    <IconButton icon={<Eraser />} onClick={()=>{onClearCanvas()}} activated={false} />
+                    <IconButton icon={<Undo2 />} onClick={onUndo} activated={false} />
+                    <IconButton icon={<Eraser />} onClick={onClearCanvas} activated={false} />
                 </div>
             </div>  
 }

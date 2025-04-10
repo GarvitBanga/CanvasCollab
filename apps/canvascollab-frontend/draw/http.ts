@@ -19,7 +19,15 @@ export async function clearShapesFromDB(roomId: string) {
 }
 
 export async function deleteLastShapeFromDB(roomId: string) {
-    const response=await axios.put(`${HTTP_BACKEND_URL}/chat/${roomId}`);
-    // console.log("response",response);
+    const res=await axios.put(`${HTTP_BACKEND_URL}/chat/${roomId}`);
+
+    // const chats=res.data.chats;
+    // const shapes=chats.map((x:{message:string})=>{
+    //     const msgdata=JSON.parse(x.message);
+    //     return msgdata.shape;
+    // });
+    // return shapes
+    console.log("response",JSON.parse(res.data.message));
+    return JSON.parse(res.data.message).shape;
 
 }

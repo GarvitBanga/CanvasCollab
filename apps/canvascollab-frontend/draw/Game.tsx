@@ -61,7 +61,7 @@ type Shape={
             const msg=JSON.parse(e.data as unknown as string);
             if(msg.type=="chat"){
                 const parsedshape=JSON.parse(msg.message as unknown as string);
-                this.existingShapes.push(parsedshape.shape );
+                this.existingShapes.push(parsedshape.shape);
                 this.clearCanvas();
             }
             else if (msg.type == "clear") {
@@ -69,12 +69,17 @@ type Shape={
                 this.clearCanvas();
             }
             else if (msg.type == "undo") {
-                this.existingShapes.pop();
+
+                const deletedShape=JSON.parse(msg.message as unknown as string);
+                this.existingShapes = this.existingShapes.filter(shape => {
+                    return JSON.stringify(shape) !== JSON.stringify(deletedShape.deletedShape);
+                  });
                 this.clearCanvas();
             }
         }
 
     }
+
     clearCanvas(){
             this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
             this.ctx.fillStyle="black";
@@ -120,17 +125,26 @@ type Shape={
       }
 
     undo = async () => {
+        // console.log("undo",this.existingShapes);
         if (this.existingShapes.length === 0) return;
-        console.log("undo",this.existingShapes);
-        this.existingShapes.pop(); // Remove from frontend
-        this.clearCanvas();
+        // console.log("undo",this.existingShapes);
+        // this.existingShapes.pop(); // Remove from frontend
+        
       
-        await deleteLastShapeFromDB(this.roomId); // Remove from DB
+        const deletedShape=await deleteLastShapeFromDB(this.roomId); // Remove from DB
+        // console.log("deletedShape",deletedShape);
+        // console.log("existingShapes",this.existingShapes);
+        this.existingShapes = this.existingShapes.filter(shape => {
+            return JSON.stringify(shape) !== JSON.stringify(deletedShape);
+          });
+        // console.log("existingShapes",this.existingShapes);
+        this.clearCanvas();
       
         this.socket.send(
           JSON.stringify({
             type: "undo",
-            message: "undone",
+            message:JSON.stringify({
+                deletedShape}),
             roomId: this.roomId,
           })
         );
@@ -146,7 +160,7 @@ type Shape={
      }
      mouseUpHandler=(e:MouseEvent)=>{
         this.clicked=false;
-            console.log(e.clientX,e.clientY);
+            // console.log(e.clientX,e.clientY);
             const width=e.clientX-this.startX;
             const height=e.clientY-this.startY;
 
@@ -197,7 +211,7 @@ type Shape={
      mouseMoveHandler=(e:MouseEvent)=>{
         
         if(this.clicked){
-            console.log("existingShapes",this.existingShapes);
+            // console.log("existingShapes",this.existingShapes);
             const width=e.clientX-this.startX;
             const height=e.clientY-this.startY;
             this.clearCanvas();
@@ -205,7 +219,7 @@ type Shape={
 
             //@ts-ignore
             const selectedTool=this.selectedTool;
-            console.log(selectedTool);
+            // console.log(selectedTool);
 
             if(selectedTool==="rect"){
                 console.log("drawrect");
@@ -224,6 +238,7 @@ type Shape={
 
             }
             else if(selectedTool=="pencil"){
+                console.log("drawpencil");
                 this.currentPencilPoints.push({ x: e.clientX, y: e.clientY });
                 this.ctx.beginPath();
                     for (let i = 0; i < this.currentPencilPoints.length - 1; i++) {

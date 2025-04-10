@@ -88,6 +88,34 @@ wss.on("connection", (ws,request) => {
     )
 
    }
+   if (parsedData.type === "undo") {
+    const roomId = parsedData.roomId;
+    const message = parsedData.message;
+  
+    users.forEach(user => {
+      if (user.rooms.includes(roomId)) {
+        user.ws.send(JSON.stringify({
+          type: "undo",
+          message,
+          roomId
+        }));
+      }
+    });
+  }
+  
+  if (parsedData.type === "clear") {
+    const roomId = parsedData.roomId;
+  
+    users.forEach(user => {
+      if (user.rooms.includes(roomId)) {
+        user.ws.send(JSON.stringify({
+          type: "clear",
+          message: "cleared",
+          roomId
+        }));
+      }
+    });
+  }
   });
 
 });

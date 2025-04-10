@@ -134,6 +134,7 @@ app.delete("/chat/:roomId", async (req, res) => {
 });
 
 app.put("/chat/:roomId", async (req, res) => {
+    // console.log("put",req.params.roomId);
     const roomId=Number(req.params.roomId);
   
     const last = await prismaClient.chat.findFirst({
@@ -145,7 +146,8 @@ app.put("/chat/:roomId", async (req, res) => {
     else{
     //  console.log("last",last);
     await prismaClient.chat.delete({ where: { id: last.id } });
-    res.status(200).json({ success: true });
+    res.status(200).json({message:last.message});
+    // res.status(200).json({ success: true });
     }
 });
 
