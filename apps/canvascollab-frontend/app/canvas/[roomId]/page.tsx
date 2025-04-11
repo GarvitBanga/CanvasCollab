@@ -15,7 +15,8 @@ import ClientAuthCheck from "@/components/ClientAuthCheck";
 //     const { roomId } = await params;
 //   return <ClientAuthCheck roomId={roomId} />;
 // }
-
-export default function CanvasPage({ params }: { params: { roomId: string } }) {
-  return <ClientAuthCheck roomId={params.roomId} />;
+type Params = Promise<{ roomId: string }>;
+export default async function CanvasPage({ params }: { params: Params }) {
+    const { roomId } = await params;
+  return <ClientAuthCheck roomId={roomId} />;
 }
