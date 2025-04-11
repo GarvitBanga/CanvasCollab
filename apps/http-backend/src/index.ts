@@ -8,7 +8,6 @@ import cors from "cors";
 const app = express();
 app.use(express.json());
 app.use(cors());  
-
 import {prismaClient} from "@repo/db/client";
 
 app.get("/", (req, res) => {
