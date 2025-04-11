@@ -3,17 +3,19 @@
 // import { use, useEffect, useRef } from "react";
 // import dynamic from "next/dynamic"
 import ClientAuthCheck from "@/components/ClientAuthCheck";
-import type { Metadata, ResolvingMetadata } from 'next'
-// You can define your own props explicitly like this:
-type Props = {
-    params: Promise<{ roomId: string }>
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-  }
-   
 
-export default async function CanvasPage( { params, searchParams }: Props,
-    parent: ResolvingMetadata
-  ) {
-    const { roomId } = await params;
-  return <ClientAuthCheck roomId={roomId} />;
+// You can define your own props explicitly like this:
+// type CanvasPageProps = {
+//     params: {
+//       roomId: string;
+//     };
+//   };
+// export default async function CanvasPage( { params }: CanvasPageProps,
+//   ) {
+//     const { roomId } = await params;
+//   return <ClientAuthCheck roomId={roomId} />;
+// }
+
+export default function CanvasPage({ params }: { params: { roomId: string } }) {
+  return <ClientAuthCheck roomId={params.roomId} />;
 }
