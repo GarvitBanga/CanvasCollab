@@ -4,9 +4,7 @@
 // import dynamic from "next/dynamic";
 import ClientAuthCheck from "@/components/ClientAuthCheck";
 
-export default async function CanvasPage({params }:{params:{roomId:string}}) {
-    const roomId=(await params).roomId;
-    return <ClientAuthCheck roomId={roomId} />;
-
-    
+export default async function CanvasPage({ params }: { params: { roomId: string } }) {
+  const roomId = params.roomId;
+  return <ClientAuthCheck roomId={roomId} />;
 }
