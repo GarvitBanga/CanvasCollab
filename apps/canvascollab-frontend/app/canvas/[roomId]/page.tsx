@@ -1,8 +1,7 @@
 // import { RoomCanvas } from "@/components/RoomCanvas";
 // import { initdraw } from "@/draw";
 // import { use, useEffect, useRef } from "react";
-// import dynamic from "next/dynamic";
-import { Metadata } from "next";
+// import dynamic from "next/dynamic"
 import ClientAuthCheck from "@/components/ClientAuthCheck";
 
 // You can define your own props explicitly like this:
