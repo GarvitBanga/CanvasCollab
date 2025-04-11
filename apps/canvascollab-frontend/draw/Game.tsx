@@ -215,7 +215,7 @@ type Shape={
             const width=e.clientX-this.startX;
             const height=e.clientY-this.startY;
             this.clearCanvas();
-            this.ctx.strokeStyle="white";
+            this.ctx.strokeStyle="red";
 
             //@ts-ignore
             const selectedTool=this.selectedTool;
