@@ -1,4 +1,10 @@
 {
-   
-    "rewrites": [{ "source": "/(.*)", "destination": "/src" }]
-  }
+    "version": 2,
+    "name": "nodejs-express",
+    "builds": [
+        { "src": "dist/index.js", "use": "@now/node" }
+    ],
+    "routes": [
+        { "src": "/(.*)", "dest": "dist/index.js" }
+    ]
+}

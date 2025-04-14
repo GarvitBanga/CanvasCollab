@@ -169,5 +169,5 @@ app.get("/room/:slug",async (req,res)=>{
 });
 
 app.listen(8080, () => {
-    console.log("Server is running on port 3001");
+    console.log("Server is running on port 8080");
 });
