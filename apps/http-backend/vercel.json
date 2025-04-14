@@ -1,11 +1,4 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "public/index.js",
-        "use": "@vercel/node",
-        "config": { "includeFiles": ["public/**"] }
-      }
-    ],
-    "rewrites": [{ "source": "/(.*)", "destination": "/public" }]
+   
+    "rewrites": [{ "source": "/(.*)", "destination": "/src" }]
   }
