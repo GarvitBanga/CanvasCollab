@@ -19,8 +19,7 @@ export const Button = ({
   onClick,
   type = "button",
 }: ButtonProps) => {
-  const base =
-    "inline-flex items-center justify-center font-medium rounded-2xl shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2";
+  const base ="inline-flex items-center gap-2 flex-nowrap justify-center font-medium rounded-2xl shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2";  
   const variants = {
     primary: "bg-primary text-white hover:bg-primary/90",
     secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
@@ -40,7 +39,9 @@ export const Button = ({
       className={`${base} ${variants[variant]} ${sizes[size]} ${className}`}
       onClick={onClick}
     >
+      <span className="flex items-center gap-2">
       {children}
+    </span>
     </button>
   );
 };

@@ -20,8 +20,10 @@ function App() {
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <Link href="/signin">
               <Button variant="primary" size="lg" className="h-12 px-6 shadow-md">
-                Sign In
-                <Pencil className="ml-2 h-4 w-4" />
+              <>
+              <span>Sign In</span>
+              <Pencil className="h-4 w-4" />
+              </>
               </Button>
             </Link>
             <Link href="/signup">
@@ -88,9 +90,9 @@ function App() {
                 Join thousands of users already making amazing diagrams and sketches.
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
-                <Button variant="secondary" size="lg" className="h-12 px-6 shadow-lg">
+                <Button variant="secondary" size="lg" className="h-12 px-6 border border-white text-white hover:bg-white hover:text-primary transition">
                   Open Canvas
-                  <Pencil className="ml-2 h-4 w-4" />
+                  <Pencil className="h-4 w-4" />
                 </Button>
                 <Button variant="ghost" size="lg" className="h-12 px-6 border border-white text-white hover:bg-white hover:text-primary transition">
                   View Gallery
