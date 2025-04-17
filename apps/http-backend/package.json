@@ -14,7 +14,6 @@
     "@repo/db": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/cors": "^2.8.17",
-    "@types/express": "^5.0.1",
     "@types/jsonwebtoken": "^9.0.9",
     "axios": "^1.8.4",
     "cookie-parser": "^1.4.7",
@@ -25,5 +24,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.14.1"
+  }
 }

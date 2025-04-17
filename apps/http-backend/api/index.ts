@@ -9,12 +9,13 @@ const app = express();
 app.use(express.json());
 app.use(cors());  
 import {prismaClient} from "@repo/db/client";
+import { Request, Response } from 'express';
 
-app.get("/", (req, res) => {
+app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
 
-app.post("/signup", async (req, res) => {
+app.post("/signup", async (req: Request, res: Response) => {
     
      const parsedData=CreateUserSchema.safeParse(
          req.body
@@ -40,7 +41,7 @@ app.post("/signup", async (req, res) => {
     
 
 });
-app.post("/signin", async(req, res) => {
+app.post("/signin", async(req: Request, res: Response) => {
     const parsedData=SigninSchema.safeParse(
         req.body
     );
@@ -69,7 +70,7 @@ app.post("/signin", async(req, res) => {
     // const token=jwt.sign({userid:userid},JWT_SECRET);
     // res.json({token});
 });
-app.post("/room",authmiddleware,async (req, res) => {
+app.post("/room",authmiddleware,async (req: Request, res: Response) => {
     
     const parsedData=CreateRoomSchema.safeParse(
         req.body
@@ -96,7 +97,7 @@ app.post("/room",authmiddleware,async (req, res) => {
     }
 });
 
-app.get("/chat/:roomId",async (req,res)=>{
+app.get("/chat/:roomId",async (req: Request, res: Response)=>{
     const roomId=Number(req.params.roomId);
 
     try{ 
@@ -120,7 +121,7 @@ app.get("/chat/:roomId",async (req,res)=>{
 
 
 });
-app.delete("/chat/:roomId", async (req, res) => {
+app.delete("/chat/:roomId", async (req: Request, res: Response) => {
     const roomId=Number(req.params.roomId);
     try {
       await prismaClient.chat.deleteMany({ where:{
@@ -132,7 +133,7 @@ app.delete("/chat/:roomId", async (req, res) => {
     }
 });
 
-app.put("/chat/:roomId", async (req, res) => {
+app.put("/chat/:roomId", async (req: Request, res: Response) => {
     // console.log("put",req.params.roomId);
     const roomId=Number(req.params.roomId);
   
@@ -151,7 +152,7 @@ app.put("/chat/:roomId", async (req, res) => {
 });
 
 
-app.get("/room/:slug",async (req,res)=>{
+app.get("/room/:slug",async (req:Request, res:Response)=>{
     const slug= req.params.slug;
 
     try{
@@ -171,3 +172,4 @@ app.get("/room/:slug",async (req,res)=>{
 app.listen(3000, () => {
     console.log("Server is running on port 8080");
 });
+module.exports = app;
